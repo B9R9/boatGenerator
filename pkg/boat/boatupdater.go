@@ -63,7 +63,7 @@ func (bu *BoatUpdater) LoopUpdatePosition() {
             case <-ticker.C:
                 for i := range bu.boatsArr {
                     wg.Add(1)
-                    go bu.updatePositions(&bu.boatsArr[i], &wg)
+                    go bu.updatePositions(&bu.boatsArr[i], &wg, int(bu.updateRate))
                     fmt.Println("**********************")
                     }
                 wg.Wait()
@@ -71,9 +71,9 @@ func (bu *BoatUpdater) LoopUpdatePosition() {
     }
 }
         
-func (bu *BoatUpdater) updatePositions(boat *Boat, wg *sync.WaitGroup) {
+func (bu *BoatUpdater) updatePositions(boat *Boat, wg *sync.WaitGroup, refreshrate int) {
     defer wg.Done()
-    newCap := direction.GetNewDirection(boat.LastDirection, boat.Speed)
+    newCap := direction.GetNewDirection(boat.LastDirection, boat.Speed, refreshrate)
     err := UpdateBoatPosition(bu.ctx, bu.client, boat, newCap)
     if err != nil {
         fmt.Printf("Erreur lors de la mise à jour de la position du bateau %s: %v\n", boat.ID, err)

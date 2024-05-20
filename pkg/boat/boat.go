@@ -20,10 +20,15 @@ type Boat struct {
 	LastDirection 	int
   }
 
-func generateRandomSpeed() int {
+  func generateRandomSpeed() int {
+    // Créez un tableau de vitesses avec une distribution préférentielle pour les valeurs spécifiées
+    speeds := []int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 22, 24, 26, 28, 30}
 
-	speeds := []int{1, 2, 3, 3, 4, 4, 4, 5, 5, 5, 6, 6, 6, 7, 8, 9, 10} // Plus de chance de valeurs 4, 5, 6
-	return speeds[rand.Intn(len(speeds))]
+    // Générez un index aléatoire pour sélectionner une vitesse dans le tableau
+    randomIndex := rand.Intn(len(speeds))
+
+    // Renvoie la vitesse correspondant à l'index aléatoire sélectionné
+    return speeds[randomIndex]
 }
 
 func generateRandomPosition() (int, int) {
